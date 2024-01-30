@@ -4,18 +4,18 @@
 #include <string>
 #include <ctime>
 using namespace std;
-int loginchoice=-1; //登陆选择 
-bool agreeeula=-1;
-bool eulastadus=-1;
-int checkeula=-114514; //检查是否同意eula 
-int qjoldosusingstudus=-1; //检查是否使用过QJOL-DOS 
-string cmd="1";	 //内部命令行 
+int loginchoice; //登陆选择 
+bool agreeeula;//是否有eula.txt或help.txt 
+int checkeula; //检查是否同意eula 
+int qjoldosusingstudus; //检查是否使用过QJOL-DOS 
+string cmd;	 //内部命令行 
 string passcode;//密码、密钥  
-bool Administrator=-1;//管理员状态 
-bool password=-1;//密码状态 
-char homo=-1;//访客登录状态 
-bool notlogin=0;//登录状态  
-clock_t start,end1;
+bool Administrator;//管理员状态 
+bool password;//密码状态 
+char homo;//访客登录状态 
+bool notlogin;//登录状态  
+bool eulacheckreturnstadus;//eulacheck函数返回值 
+clock_t start,end1;//计时器 
 void help()
 {
 	cout<<"请在使用前仔细阅读该帮助文档，帮助文档已经生成在QJOL-DOS的安装目录下。"<<endl;
@@ -107,7 +107,7 @@ bool check()
 	else
 		return 1;
 }
-bool eulacheck()
+int eulacheck()
 {
 	cout<<"请问您之前使用过QJOL-DOS吗？有请输入1，没有请输入2."<<endl;
 	cin>>qjoldosusingstudus;
@@ -115,6 +115,7 @@ bool eulacheck()
 	{
 		cout<<"我们不再重新输出help文档，若输入错误，可以重新运行QJOL-DOS主程序.";
 		system("cls");
+		eulacheckreturnstadus=1;
 		return 1;
 	}
 	else
@@ -126,11 +127,13 @@ bool eulacheck()
 			if(check())
 			{
 				cout<<"验证成功，正在进入系统。"<<endl;
+				eulacheckreturnstadus=1;
 				return 1;
 			}
 			else
 			{
 				cout<<"我们检测到您没有同意eula。请在QJOL-DOS根目录找到help.txt。仔细阅读完毕后，请打开eula.txt,将值改为1并重新运行本程序。"<<endl;
+				eulacheckreturnstadus=0;
 				return 0;
 			}
 				
@@ -141,6 +144,7 @@ bool eulacheck()
 			cout<<"阅读完文档后请在根目录打开eula.txt,修改0为1。"<<endl; 
 			freopen("eula.txt","w",stdout);
 			cout<<0;
+			eulacheckreturnstadus=0;
 			return 0;
 		}
 	}
@@ -160,26 +164,24 @@ int main()
 	}
 	if(notlogin==1)
 		return 0;
-	if(eulacheck()!=1)
-		return 0;
-	system("cls"); 
-	cout<<"加载命令行程序..."<<endl;
-	Sleep(1145);
-	cout<<"加载软件..."<<endl;
-	Sleep(1145);
-	cout<<"完成。" ;
-	Sleep(1145);
-	system("cls");
+	eulacheck();
+	if(eulacheckreturnstadus==0)	return 0;
+//	system("cls"); 
+//	cout<<"加载命令行程序..."<<endl;
+//	Sleep(1145);
+//	cout<<"加载软件..."<<endl;
+//	Sleep(1145);
+//	cout<<"完成。" ;
+//	Sleep(1145);
+//	system("cls");
 	cout<<"欢迎使用QJOL-DOS 3.0.2。help文档在主程序根目录。"<<endl;
-	cout<<"Copyright QJOJ 2021-2023,All right reserved."<<endl;
-	//错误始 循环问题 
-	while(true)
+	cout<<"Copyright QJOJ 2021-2023,All right reserved."<<endl; 
+	while(cmd!="exit")
 	{
+		Sleep(1145); 
 		cout<<"MainDisk:";
-		cin>>cmd; //具体 输入问题 
-		if(cmd=="exit")
-			break;
+		cin>>cmd;
+		cout<<"cmd:"<<cmd<<endl;
 	}
-	//错误终 
 	return 0;
 }
