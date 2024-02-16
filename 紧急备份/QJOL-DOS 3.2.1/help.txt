@@ -1,0 +1,9 @@
+请认准QJOL团队成员：150895672群中有职位的都是开发者！
+QJOL-DOS的所有代码均在github开源，请放心使用。
+开源地址：
+https://github.com/SurnameQ114514/QJOL-DOS
+指令解释：
+1.exit:退出程序
+2.cacu:高精度计算器，遥遥领先
+3.music:非常好的音乐使我去了下北泽
+特别鸣谢：Summer制作的扫雷游戏;阅读完文档后请在根目录打开eula.txt,修改0为1。
